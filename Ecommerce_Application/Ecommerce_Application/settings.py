@@ -130,3 +130,12 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ali.alhussein.alt@gmail.com'
+EMAIL_HOST_PASSWORD = 'embimgqdnklasilk'
+DEFAULT_FROM_EMAIL = 'e-shop.info@eshop.com' 
+APPLICATION_EMAIL = 'admin@admin.com'
