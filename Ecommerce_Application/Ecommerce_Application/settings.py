@@ -31,6 +31,7 @@ INSTALLED_APPS = [
 
     # My Apps
     'user_accounts',
+    'store',
 
     #3rd Party Apps
 ]
