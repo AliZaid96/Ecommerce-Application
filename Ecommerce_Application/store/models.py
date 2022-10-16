@@ -38,7 +38,7 @@ class Product(models.Model):
     inventory=models.IntegerField()
     added = models.DateTimeField(auto_now_add=True, auto_now=False)
     last_update=models.DateTimeField(auto_now=True)
-    collection=models.ForeignKey(Categories, on_delete=models.PROTECT)
+    category=models.ForeignKey(Categories, on_delete=models.PROTECT)
     promotions=models.ManyToManyField(Promotion, blank=True)
     img = models.ImageField(upload_to=filepath, blank=True)
 

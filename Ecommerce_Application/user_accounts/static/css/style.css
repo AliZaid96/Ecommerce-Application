@@ -2474,7 +2474,8 @@
 	text-transform: capitalize;
 }
 
-.shop-sidebar .categor-list li a:hover{
+.shop-sidebar .categor-list li a:hover,
+.shop-sidebar .categor-list li a.active {
 	color:#F7941D;
 }
 

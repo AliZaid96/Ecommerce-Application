@@ -6,8 +6,8 @@ from .models import (
 )
 
 class ProductAdminTableView(admin.ModelAdmin):
-	list_display = ('pk', 'title', 'description', 'unit_price', 'inventory', 'added', 'last_update', 'collection', 'img')
-	filter_list = ('added', 'last_update', 'collection')
+	list_display = ('pk', 'title', 'description', 'unit_price', 'inventory', 'added', 'last_update', 'category', 'img')
+	filter_list = ('added', 'last_update', 'category')
 	filter_search = ['title']
 
 class CategoriesAdminTableView(admin.ModelAdmin):
