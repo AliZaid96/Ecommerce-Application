@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.http import Http404  
 from django.views import View
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import (
 	Product,
 	Categories,
@@ -11,8 +12,28 @@ class Home(View):
 	template_name = 'home.html'
 
 	def get(self, request):
-		products = Product.objects.all().order_by('title')
+		search_query = request.GET.get('search', None)
+		print('Search Query: ',search_query)
+
+		if search_query:
+			products = Product.objects.filter(title__icontains=search_query).order_by('title')
+
+		else:
+			products = Product.objects.all().order_by('title')
+		
 		categories = Categories.objects.all()
+
+		# Configuring the results for pagination
+		page = request.GET.get('page', 1)
+		# Add number of instances that should apear in 1 page and the queryset for the instance
+		paginator = Paginator(products, 15)
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
+
 
 		context = {
 			'title'	:	'Home',
@@ -39,6 +60,17 @@ class Home(View):
 
 		categories = Categories.objects.all()
 
+		# Configuring the results for pagination
+		page = request.GET.get('page', 1)
+		# Add number of instances that should apear in 1 page and the queryset for the instance
+		paginator = Paginator(products, 15)
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
+
 		context = {
 			'title'	:	'Home',
 			"products"	:	products,
@@ -55,6 +87,17 @@ class Category(View):
 	def get(self, request, id):
 		category_products = Product.objects.select_related("category").filter(category=id).order_by('title')
 		categories = Categories.objects.all()
+
+		# Configuring the results for pagination
+		page = request.GET.get('page', 1)
+		# Add number of instances that should apear in 1 page and the queryset for the instance
+		paginator = Paginator(category_products, 15)
+		try:
+			category_products = paginator.page(page)
+		except PageNotAnInteger:
+			category_products = paginator.page(1)
+		except EmptyPage:
+			category_products = paginator.page(paginator.num_pages)
 
 		context = {
 			'title'	:	'Category',
@@ -78,6 +121,17 @@ class Category(View):
 
 		else:
 			category_products = Product.objects.select_related("category").filter(category=id).order_by('title')
+
+		# Configuring the results for pagination
+		page = request.GET.get('page', 1)
+		# Add number of instances that should apear in 1 page and the queryset for the instance
+		paginator = Paginator(category_products, 15)
+		try:
+			category_products = paginator.page(page)
+		except PageNotAnInteger:
+			category_products = paginator.page(1)
+		except EmptyPage:
+			category_products = paginator.page(paginator.num_pages)
 
 
 		context = {

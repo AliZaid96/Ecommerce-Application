@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load filtering_and_pagination %}
 {%block title%}{{title}}{% endblock%}
 {%block content%}		
 		<!-- Product Style -->
@@ -120,6 +121,25 @@
 					</div>
 				</div>
 			</div>
+			<div class="align-middle text-center">
+	        	{% if products.has_other_pages %}
+	                {% if products.has_previous %}
+	                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=1 %}">First</a>
+	                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.previous_page_number %}">Previous</a>
+	                {% endif %}
+	                {% for num in products.paginator.page_range %}
+	                    {% if products.number == num %}
+	                        <a class="btn btn-info mb-4" href="?page{% param_replace page=num %}">{{ num }}</a>
+	                    {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+	                        <a class="btn btn-outline-info mb-4" href="?{% param_replace page=num %}">{{ num }}</a>
+	                    {% endif %}
+	                {% endfor %}
+	                {% if products.has_next %}
+	                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=page_obj.next_page_number %}">Next</a>
+	                    <a class="btn btn-outline-info mb-4" href="?{% param_replace page=paginator.num_pages %}">Last</a>
+	                {% endif %}
+	            {% endif %}
+	        </div>
 		</section>
 		<!--/ End Product Style 1  -->	
 
