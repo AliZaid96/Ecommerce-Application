@@ -2197,6 +2197,12 @@
 	transition: all 250ms ease-out;
 }
 
+.filter_form {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
 .single-product .product-img .product-action-2 a {
 	display: block;
 	background-color: transparent;
@@ -2468,7 +2474,8 @@
 	text-transform: capitalize;
 }
 
-.shop-sidebar .categor-list li a:hover{
+.shop-sidebar .categor-list li a:hover,
+.shop-sidebar .categor-list li a.active {
 	color:#F7941D;
 }
 

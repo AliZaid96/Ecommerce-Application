@@ -33,6 +33,7 @@ urlpatterns = [
     ),
     
     path("profile/", views.profile, name="profile"),
+    path("update-profile/", views.UpdateProfile.as_view(), name="update-profile"),
     path("address-book", views.addressBook.as_view(), name="address_book"),
     path('password-change/', auth_views.PasswordChangeView.as_view(
         template_name='passwordchange.html', 

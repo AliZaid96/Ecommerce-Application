@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block title %}{{request.user.get_full_name}}'s Profile{% endblock %}
 {%block content%}		
 		<!-- Product Style -->
 		<section class="product-area shop-sidebar shop section">
@@ -24,11 +25,11 @@
 					</div>
 					<div class="col-lg-9 col-md-8 col-12">
 						<div class="row">
-              <div class="col-12">
+              <div class="col-12 pl-0">
                 <h3>My profile</h3>
               </div>
                             
-              <div class="card col-6 mt-2">
+              <div class="card col-12 mt-2">
                 <div class="card-body">
                   <table class="table">
                     <tbody>
@@ -54,10 +55,17 @@
                       </tr>
                       <tr>
                         <th scope="row">Birth Date</th>
-                        <td>{{customer.Birth_date}}</td>
+                        <td style="border-bottom: 1px solid #e9ecef">{{customer.Birth_date}}</td>
                       </tr>
                       <tr>
-                        <th scope="row" ><a href="{% url 'passwordchange' %}"><button class="btn btn primary">Change Password</button></a></th>
+                        <th scope="row">Gender</th>
+                        <td>{{customer.gender}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="pl-0">
+                        	<a href="{% url 'passwordchange' %}" class="btn btn primary text-white">Change Password</a>
+                        	<a href="{% url 'update-profile' %}" class="btn btn primary text-white ml-3">Update Profile</a>
+                        </th>
                       </tr>
                     </tbody>
                   </table>
