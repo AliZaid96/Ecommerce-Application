@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse
 from django.http import Http404  
 from django.views import View
+from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import (
 	Product,
@@ -11,7 +12,9 @@ from .models import (
 	Order,
 	OrderItem,
 )
+from user_accounts.models import Customer, Address
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import ObjectDoesNotExist
 
 class Home(View):
 	template_name = 'home.html'
@@ -149,7 +152,7 @@ class Category(View):
 
 		return render(request , self.template_name, context)
 
-class Cart(View):
+class CartView(View):
 	template_name = 'cart.html'
 
 	def get(self, request):
@@ -157,14 +160,12 @@ class Cart(View):
 		customer = Customer.objects.get(user=user)
 		cart = Cart.objects.get(customer=customer)
 		cartItems = CartItem.objects.filter(cart=cart)
-		cartItems = list(cartItems)
 
-		getcontext().prec = 2
-		subTotal = Decimal(0)
+		subTotal = 0
 
-		for x in cartItems:
-			y = x.get_total_price()
-			subTotal = subTotal + y
+		for item in cartItems:
+			item_total = item.get_total_price()
+			subTotal = subTotal + item_total
 
 		context = {
 			"items"	:	cartItems, 
@@ -190,25 +191,42 @@ class CreateCart(View):
 @csrf_exempt
 def AddToCart(request):
 	if request.method =="POST":
-
+		customer = Customer.objects.get(user=request.user)
 		print("yolo!!!!!!!!!!!!!!!!!!!!")
 		cartId = request.POST.get('cartId')
 		productId = request.POST.get('productId')
 		quantity = request.POST.get('quantity')
+		try:
+			# Getting cart from database
+			cart = Cart.objects.get(pk=cartId)
 
-		cart=Cart.objects.get(pk=cartId)
+		except ObjectDoesNotExist:
+			# creating new cart as no cart exist in the system
+			cart = Cart(customer=customer)
+			cart.save()
+
 		if request.user.is_authenticated:
 			customer = Customer.objects.get(user=request.user)
 			cart.customer = customer
 			cart.save()
 
 		product = Product.objects.get(pk=productId)
-		cartItem_obj = CartItem()
-		cartItem_obj.cart = cart
-		cartItem_obj.product = product
-		cartItem_obj.quantity = quantity
-		cartItem_obj.save()
-		messages.success("Product Addred to Cart!")
+
+		try:
+			# Checking if product is already added to cart
+			cartItem_obj = CartItem.objects.get(cart=cart, product=product)
+			# Increasing products quantity based on new quantity number
+			cartItem_obj.quantity = cartItem_obj.quantity + int(quantity)
+			cartItem_obj.save()
+
+		except ObjectDoesNotExist:
+			# Product doesn't exist in the cart, adding new product
+			cartItem_obj = CartItem()
+			cartItem_obj.cart = cart
+			cartItem_obj.product = product
+			cartItem_obj.quantity = quantity
+			cartItem_obj.save()
+		messages.success(request, "Product Addred to Cart!")
 		return HttpResponse("Product Added to Cart!")
 
 def myOrders(request):
@@ -262,16 +280,14 @@ def checkout(request):
 		customer = Customer.objects.get(user=user)
 		cart = Cart.objects.get(customer=customer)
 		cartItems = CartItem.objects.filter(cart=cart)
-		cartItems = list(cartItems)
 
-		getcontext().prec = 2
-		subTotal = Decimal(0)
+		subTotal = 0
 
-		for x in cartItems:
-			y = x.get_total_price()
-			subTotal = subTotal + y
+		for item in cartItems:
+			item_total = item.get_total_price()
+			subTotal = subTotal + item_total
 
-		add = Address.objects.filter(customer=customer)[0]
+		add = Address.objects.filter(user=user)[0]
 
 		context = {
 			"items"	:	cartItems, 
@@ -296,7 +312,7 @@ def placeOrder(request):
 		order.save()
 
 		for item in cartItems:
-			orderItem_obj = OrderItem(order=order, product=item.product, quantity=c.quantity, unit_price=c.product.unit_price)
+			orderItem_obj = OrderItem(order=order, product=item.product, quantity=item.quantity, unit_price=item.product.unit_price)
 			orderItem_obj.save()
 		    
 		cart.delete()

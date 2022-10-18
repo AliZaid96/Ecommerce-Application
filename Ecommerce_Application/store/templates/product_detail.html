@@ -4,7 +4,7 @@
 <div class="container">
 
   <div class="alert alert-success fade show" role="alert">
-    <strong><a href="#">Product Added to Cart . (click here to visit cart)</a>  </strong> 
+    <strong><a href="{% url 'cart' %}">Product Added to Cart . (click here to visit cart)</a>  </strong> 
     <button type="button" class="close"  >
       <span aria-hidden="true">&times;</span>
     </button>
@@ -16,7 +16,7 @@
         height="500px"
         src="{{product.img.url}}"
         class="rounded img-fluid"
-        alt="..."
+        alt="{{product.title}}'s image"
       />
     </div>
     <div class="col-md-6 mt-5 mb-5">
@@ -111,7 +111,7 @@
 
     var formData = new FormData(); 
     formData.append("cartId", parseInt(localStorage.getItem("cart")) );
-    console.log("ok1")
+    console.log("ok1 "+formData.cartId)
     formData.append("productId", {{product.id}});
     console.log("ok2")
     formData.append("quantity", parseInt($("#quantity").val()))
@@ -124,7 +124,7 @@
       $('.alert').show();
     }
     
-    xhttp.open("post", "#")
+    xhttp.open("post", "{% url 'addToCart' %}")
     xhttp.send(formData);
   });
 
