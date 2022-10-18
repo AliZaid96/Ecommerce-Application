@@ -10,6 +10,7 @@ from .forms import (
 	CustomerRegistrationForm,
 	AddAddressForm,
 )
+from datetime import datetime
 
 # View responsible for registering new users
 class customerRegistration(View):
@@ -46,11 +47,53 @@ def profile(request):
 	except Exception as exe:
 		# Logged in user doesn't have a customer profile. Creating new customr profile for the user
 		customer = Customer(user=request.user)
+		customer.save()
 
 	context = {
 		'customer'	:	customer
 	}
 	return render(request, "profile.html", context)
+
+class UpdateProfile(View):
+	template_name = 'update_profile.html'
+
+	def get(self, request):
+		current_user = request.user
+		try:
+			customer = Customer.objects.get(user=current_user)
+
+		except Exception as exe:
+			return redirect('home')
+
+		context = {
+			'customer'	:	customer
+		}
+		return render(request, self.template_name, context)
+
+	def post(self, request):
+		current_user = request.user
+		customer = Customer.objects.get(user=current_user)
+
+		first_name = request.POST.get('first_name')
+		last_name = request.POST.get('last_name')
+		email = request.POST.get('email')
+		phone = request.POST.get('phone')
+		Birth_date = request.POST.get('birth_date')
+		gender = request.POST.get('gender')
+		Birth_date = datetime.strptime(Birth_date, '%Y-%M-%d')
+
+		current_user.first_name = first_name
+		current_user.last_name = last_name
+		current_user.email = email
+		current_user.save()
+
+		customer.phone = phone
+		customer.gender = gender
+		customer.Birth_date = Birth_date
+		customer.save()
+
+		messages.success(request, 'Profile information updated successfully')
+		return redirect('profile')
 
 class addressBook(View):
 	template_name = "address_book.html"

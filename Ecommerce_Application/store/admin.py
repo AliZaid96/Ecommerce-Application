@@ -2,7 +2,11 @@ from django.contrib import admin
 from .models import (
 	Product,
 	Categories,
-	Promotion
+	Promotion,
+	Cart,
+	CartItem,
+	Order,
+	OrderItem,
 )
 
 class ProductAdminTableView(admin.ModelAdmin):
@@ -18,6 +22,23 @@ class PromotionAdminTableView(admin.ModelAdmin):
 	list_display = ('pk', 'description', 'discount')
 	filter_search = ['description']
 
+class CartAdminTableView(admin.ModelAdmin):
+	list_display = ('pk', 'customer', 'created_at')
+
+class CartItemAdminTableView(admin.ModelAdmin):
+	list_display = ('pk', 'cart', 'product', 'quantity')
+
+class OrderAdminTableView(admin.ModelAdmin):
+	list_display = ('pk', 'customer', 'placed_at', 'payment_status')
+	filter_list = ['payment_status']
+
+class OrderItemAdminTableView(admin.ModelAdmin):
+	list_display = ('pk', 'order', 'product', 'quantity', 'unit_price')
+
 admin.site.register(Product, ProductAdminTableView)
 admin.site.register(Categories, CategoriesAdminTableView)
 admin.site.register(Promotion, PromotionAdminTableView)
+admin.site.register(Cart, CartAdminTableView)
+admin.site.register(CartItem, CartItemAdminTableView)
+admin.site.register(Order, OrderAdminTableView)
+admin.site.register(OrderItem, OrderItemAdminTableView)

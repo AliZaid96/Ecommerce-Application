@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% block title %}{{request.user.get_full_name}}'s Profile{% endblock %}
 {%block content%}		
-		<!-- Product Style -->
+			<!-- Product Style -->
+			
 		<section class="product-area shop-sidebar shop section">
 			<div class="container">
+			
 				<div class="row">
 					<div class="col-lg-3 col-md-4 col-12">
 						<div class="shop-sidebar">
@@ -11,73 +12,78 @@
 								<div class="single-widget category">
 									<h3 class="title">Manage Your Account</h3>
 									<ul class="categor-list">
-										<li><a href="{% url 'profile'%}">My Profile</a></li>
-										<li><a href="{% url 'address_book' %}">Address Book</a></li>
+										
+										<li ><a  href="{% url 'profile'%}">My Profile</a></li>
+										<li><a href="{% url 'address_book'%}">Address Book</a></li>
+                                        	
 									</ul>
-                  <br>
-                  <h3 class="title">My Orders</h3>
+                                    <br>
+                                    <h3 class="title">My Orders</h3>
 									<ul class="categor-list">
-										<li><a href="#">All Orders</a></li>
+										<li><a href="{% url 'my_orders' %}">All Orders</a></li>
+
+                                        	
 									</ul>
 								</div>
 								<!--/ End Single Widget -->
+					
 						</div>
 					</div>
 					<div class="col-lg-9 col-md-8 col-12">
 						<div class="row">
-              <div class="col-12 pl-0">
-                <h3>My profile</h3>
-              </div>
+                            <div class="col-12">
+                                <h3>My Orders</h3>
+                            </div>
+                        
                             
-              <div class="card col-12 mt-2">
-                <div class="card-body">
-                  <table class="table">
-                    <tbody>
-                      <tr>
-                        <th scope="row">First Name:</th>
-                        <td>{{customer.user.first_name}}</td>
-			                </tr>
-                      <tr>
-                        <th scope="row">Last Name:</th>
-                        <td>{{request.user.last_name}}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Email:</th>
-                        <td>{{customer.user.email}}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Phone</th>
-                        <td>{{customer.phone}}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Membership</th>
-                        <td>{{customer.membership}}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Birth Date</th>
-                        <td style="border-bottom: 1px solid #e9ecef">{{customer.Birth_date}}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Gender</th>
-                        <td>{{customer.gender}}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row" class="pl-0">
-                        	<a href="{% url 'passwordchange' %}" class="btn btn primary text-white">Change Password</a>
-                        	<a href="{% url 'update-profile' %}" class="btn btn primary text-white ml-3">Update Profile</a>
-                        </th>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-						</div>
+							  <div class="card col-12 mt-2">
+                                <div class="card-body">
+									
+									<table class="table">
+										<thead>
+										  <tr>
+											<th scope="col">Order ID</th>
+											<th scope="col">Status</th>
+											<th scope="col">Date Time</th>
+											<th scope="col">Address</th>
+											
+										  </tr>
+										</thead>
+										<tbody>
+										{% for order in orders %}
+										  <tr>
+											<th scope="row">
+												<a class="badge badge-light"  href="{% url 'order_detail' order.id %}">{{ order.id }}</a></th>
 
+											<td>
+												{% if order.payment_status == 'P' %}
+												<span class="badge badge-pill badge-warning">{{order.payment_status}}</span></td>
+												{% elif order.payment_status == 'C' %}
+												<span class="badge badge-pill badge-success">{{order.payment_status}}</span></td>
+												{% else %}
+												<span class="badge badge-pill badge-danger">{{order.payment_status}}</span></td>
+												{% endif%}
+											<td>{{order.placed_at}}</td>
+											<td>{{add.street}} , {{add.city}}</td>
+											
+										  </tr>
+										{% endfor%}
+										  
+										</tbody>
+									  </table>
+                                      <!-- <div class="row"><button class="btn btn primary"></button></div> -->
+                                      
+                                </div>
+                              </div>
+
+						</div>
+						
 					</div>
 				</div>
 			</div>
 		</section>
 		<!--/ End Product Style 1  -->	
+
 		<!-- Start Shop Newsletter  -->
 		<section class="shop-newsletter section">
 			<div class="container">
@@ -216,5 +222,5 @@
 			</div>
 			<!-- Modal end -->
 		
-	
+
 {%endblock%}
