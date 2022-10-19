@@ -4,6 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="rating" content="General">
+	<meta name="expires" content="never">
+	<meta name="language" content="English, EN">
+	<meta name="description" content="Shopping cart project with HTML5 and JavaScript">
+	<meta name="keywords" content="ecommerce-website, t-shits, HTML5, CSS, JavaScript, html5 session storage, html5 local storage, django">
+	<meta name="author" content="E-Shop">
 	<meta name='copyright' content=''>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -40,7 +46,7 @@
 	<link rel="stylesheet" href="{%static 'css/style.css'%}">
     <link rel="stylesheet" href="{%static 'css/responsive.css'%}">
 </head>
-<body class="js" onload="loadDoc()">
+<body class="js">
 	
     <!-- Preloader -->
 	<!-- <div class="preloader">
@@ -53,9 +59,49 @@
 	</div> -->
 	<!-- End Preloader -->
     {% include "header.html"%}
-    {% block content %}
-	
+    {% block content %}	
     {%endblock%}
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cart" tabindex="-1" role="dialog" aria-labelledby="Shopping-Cart-Modal" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content" style="padding: 2rem;">
+		      	<div class="modal-header mb-3" style="position: unset;">
+		        	<h5 class="modal-title" id="Shopping-Cart-Modal">Cart</h5>
+		        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          		<span aria-hidden="true">&times;</span>
+		        	</button>
+		      	</div>
+		      	<form method="post" action="{% url 'checkout' %}">
+
+		      		<div class="modal-body">
+			      		{% csrf_token %}
+			      		<input type="hidden" name="total-cart-items" value="0" id="id_total-cart-items">
+			      		<table class="table" style="height: max-content;">
+				          <thead>
+				          	<tr>
+					          	<th>Product</th>
+					          	<th>Unit Price</th>
+					          	<th style="text-align: center;">Quantity</th>
+					          	<th>Total Price</th>
+					          	<th>Action</th>
+					        </tr>
+				          </thead>
+				          <tbody class="show-cart">
+				          	
+				          </tbody>
+				        </table>
+				    </div>
+				    <div class="modal-footer" style="justify-content: space-between;">
+				      	<strong>Total price: $<span class="total-cart"></span></strong>
+				        <div>
+				        	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				        	<button class="btn btn-primary" type="submit">Order now</button>
+				        </div>
+				    </div>
+		      	</form>
+		    </div>
+		</div>
+	</div> 
 	{% include "footer.html"%}
 
     <!-- Jquery -->
@@ -66,8 +112,6 @@
 	<script src="{%static 'js/popper.min.js'%}"></script>
 	<!-- Bootstrap JS -->
 	<script src="{%static 'js/bootstrap.min.js'%}"></script>
-	<!-- Color JS -->
-	<script src="{%static 'js/colors.js'%}"></script>
 	<!-- Slicknav JS -->
 	<script src="{%static 'js/slicknav.min.js'%}"></script>
 	<!-- Owl Carousel JS -->
@@ -93,17 +137,208 @@
 	<script src="{%static 'js/active.js'%}"></script>
 	<script>
 		
-		function loadDoc() {
-		  if(localStorage.getItem("cart")==null){
-			const xhttp = new XMLHttpRequest();
-		  	xhttp.onload = function() {
-				localStorage.setItem("cart",this.responseText)
-				console.log("cart saved")
-		  	}
-		  	xhttp.open("GET", "");
-		  	xhttp.send();
+		// ************************************************
+		// Shopping Cart API
+		// ************************************************
+
+		var shoppingCart = (function() {
+		  // =============================
+		  // Private methods and propeties
+		  // =============================
+		  cart = [];
+		  
+		  // Constructor
+		  function Item(id, name, price, count) {
+		  	this.id = id;
+		    this.name = name;
+		    this.price = price;
+		    this.count = count;
 		  }
+		  
+		  // Save cart
+		  function saveCart() {
+		    sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
+		  }
+		  
+		    // Load cart
+		  function loadCart() {
+		    cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
+		  }
+		  if (sessionStorage.getItem("shoppingCart") != null) {
+		    loadCart();
+		  }
+		  
+
+		  // =============================
+		  // Public methods and propeties
+		  // =============================
+		  var obj = {};
+		  
+		  // Add to cart
+		  obj.addItemToCart = function(id, name, price, count) {
+		    for(var item in cart) {
+		      if(cart[item].name === name) {
+		        cart[item].count ++;
+		        saveCart();
+		        return;
+		      }
+		    }
+		    var item = new Item(id, name, price, count);
+		    cart.push(item);
+		    saveCart();
+		  }
+		  // Set count from item
+		  obj.setCountForItem = function(name, count) {
+		    for(var i in cart) {
+		      if (cart[i].name === name) {
+		        cart[i].count = count;
+		        break;
+		      }
+		    }
+		  };
+		  // Remove item from cart
+		  obj.removeItemFromCart = function(name) {
+		      for(var item in cart) {
+		        if(cart[item].name === name) {
+		          cart[item].count --;
+		          if(cart[item].count === 0) {
+		            cart.splice(item, 1);
+		          }
+		          break;
+		        }
+		    }
+		    saveCart();
+		  }
+
+		  // Remove all items from cart
+		  obj.removeItemFromCartAll = function(name) {
+		    for(var item in cart) {
+		      if(cart[item].name === name) {
+		        cart.splice(item, 1);
+		        break;
+		      }
+		    }
+		    saveCart();
+		  }
+
+		  // Clear cart
+		  obj.clearCart = function() {
+		    cart = [];
+		    saveCart();
+		  }
+
+		  // Count cart 
+		  obj.totalCount = function() {
+		    var totalCount = 0;
+		    for(var item in cart) {
+		      totalCount += cart[item].count;
+		    }
+		    return totalCount;
+		  }
+
+		  // Total cart
+		  obj.totalCart = function() {
+		    var totalCart = 0;
+		    for(var item in cart) {
+		      totalCart += cart[item].price * cart[item].count;
+		    }
+		    return Number(totalCart.toFixed(2));
+		  }
+
+		  // List cart
+		  obj.listCart = function() {
+		    var cartCopy = [];
+		    for(i in cart) {
+		      item = cart[i];
+		      itemCopy = {};
+		      for(p in item) {
+		        itemCopy[p] = item[p];
+
+		      }
+		      itemCopy.total = Number(item.price * item.count).toFixed(2);
+		      cartCopy.push(itemCopy)
+		    }
+		    return cartCopy;
+		  }
+
+		  return obj;
+		})();
+
+
+		// *****************************************
+		// Triggers / Events
+		// ***************************************** 
+		// Add item
+		$('.add-to-cart').click(function(event) {
+		  event.preventDefault();
+		  var name = $(this).data('name');
+		  var price = Number($(this).data('price'));
+		  var id = Number($(this).data('id'));
+		  shoppingCart.addItemToCart(id, name, price, 1);
+		  displayCart();
+		});
+
+		// Clear items
+		$('.clear-cart').click(function() {
+		  shoppingCart.clearCart();
+		  displayCart();
+		});
+
+
+		function displayCart() {
+		  var cartArray = shoppingCart.listCart();
+		  console.log('Items: '+shoppingCart.listCart().length);
+		  $('#id_total-cart-items').val(shoppingCart.listCart().length);
+		  var output = "";
+		  for(var i in cartArray) {
+		    output += "<tr>"
+		      + "<td style='width:20%; max-height: 30px !important;'><input type='hidden' disable style='border: none;' name='cart_item_number_" + i + "_id'  class='form-control' data-id='" + cartArray[i].id + "' value='" + cartArray[i].id + "'><input type='text' disable style='border: none;' name='cart_item_number_" + i + "_title'  class='form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].name + "'></td>" 
+		      + "<td style='width:10%; max-height: 30px !important;'>" + cartArray[i].price + "$</td>"
+		      + "<td style='width:45%; max-height: 30px !important;'><div class='input-group'><button class='minus-item input-group-addon btn btn-primary' data-name=" + cartArray[i].name + ">-</button>"
+		      + "<input type='number' name='cart_item_number_" + i + "_quantity' style='width:min-content; text-align:center' class='item-count form-control' data-name='" + cartArray[i].name + "' value='" + cartArray[i].count + "'>"
+		      + "<button class='plus-item btn btn-primary input-group-addon' data-name=" + cartArray[i].name + ">+</button></div></td>"
+		      + " = "
+		      + "<td style='width:15%; max-height: 30px !important;'>" + cartArray[i].total + "</td>" 
+		      + "<td style='width:10%; max-height: 30px !important;'><button class='delete-item btn btn-danger' data-name=" + cartArray[i].name + ">X</button></td>"
+		      +  "</tr>";
+		  }
+		  $('.show-cart').html(output);
+		  $('.total-cart').html(shoppingCart.totalCart());
+		  $('.total-count').html(shoppingCart.totalCount());
 		}
-		</script>
+
+		// Delete item button
+
+		$('.show-cart').on("click", ".delete-item", function(event) {
+		  var name = $(this).data('name')
+		  shoppingCart.removeItemFromCartAll(name);
+		  displayCart();
+		})
+
+
+		// -1
+		$('.show-cart').on("click", ".minus-item", function(event) {
+		  var name = $(this).data('name')
+		  shoppingCart.removeItemFromCart(name);
+		  displayCart();
+		})
+		// +1
+		$('.show-cart').on("click", ".plus-item", function(event) {
+		  var name = $(this).data('name')
+		  shoppingCart.addItemToCart(name);
+		  displayCart();
+		})
+
+		// Item count input
+		$('.show-cart').on("change", ".item-count", function(event) {
+		   var name = $(this).data('name');
+		   var count = Number($(this).val());
+		  shoppingCart.setCountForItem(name, count);
+		  displayCart();
+		});
+
+		displayCart();
+
+	</script>
 </body>
 </html>

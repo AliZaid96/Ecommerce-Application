@@ -23,13 +23,13 @@ class PromotionAdminTableView(admin.ModelAdmin):
 	filter_search = ['description']
 
 class CartAdminTableView(admin.ModelAdmin):
-	list_display = ('pk', 'customer', 'created_at')
+	list_display = ('pk', 'session_ID', 'customer', 'subTotal', 'created_at')
 
 class CartItemAdminTableView(admin.ModelAdmin):
 	list_display = ('pk', 'cart', 'product', 'quantity')
 
 class OrderAdminTableView(admin.ModelAdmin):
-	list_display = ('pk', 'customer', 'placed_at', 'payment_status')
+	list_display = ('pk', 'placed_at', 'payment_status')
 	filter_list = ['payment_status']
 
 class OrderItemAdminTableView(admin.ModelAdmin):

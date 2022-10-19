@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.http import Http404  
 from django.views import View
 from django.contrib import messages
@@ -157,8 +157,10 @@ class CartView(View):
 
 	def get(self, request):
 		user = request.user
+		cartId = request.GET.get('cartId')
+		print('CartID: ',cartId)
 		customer = Customer.objects.get(user=user)
-		cart = Cart.objects.get(customer=customer)
+		cart = Cart.objects.get(session_ID=cartId)
 		cartItems = CartItem.objects.filter(cart=cart)
 
 		subTotal = 0
@@ -191,7 +193,6 @@ class CreateCart(View):
 @csrf_exempt
 def AddToCart(request):
 	if request.method =="POST":
-		customer = Customer.objects.get(user=request.user)
 		print("yolo!!!!!!!!!!!!!!!!!!!!")
 		cartId = request.POST.get('cartId')
 		productId = request.POST.get('productId')
@@ -202,7 +203,7 @@ def AddToCart(request):
 
 		except ObjectDoesNotExist:
 			# creating new cart as no cart exist in the system
-			cart = Cart(customer=customer)
+			cart = Cart(session_ID=cartId)
 			cart.save()
 
 		if request.user.is_authenticated:
@@ -252,75 +253,75 @@ def orderDetail(request,id):
 		customer = Customer.objects.get(user=request.user)
 		order = Order.objects.get(pk=id)
 
-		order_items = OrderItem.objects.filter(order=order)
-		orderItems = list(order_items)
+		orderItems = OrderItem.objects.filter(order=order)
 
-		getcontext().prec = 2
-		subTotal = Decimal(0)
+		subTotal = 0
 
 		for x in orderItems:
 			y=x.get_total_price()
 			subTotal=subTotal+y
 
-		add = Address.objects.filter(customer=customer)[0]
+		add = Address.objects.filter(user=request.user)[0]
 		context = {
 			"items"	:	orderItems, 
 			"subTotal"	:	subTotal , 
 			"add"	:	add,
 		}
-		return render(request, "order_detail.html", context)
+		return render(request, "orderDetails.html", context)
 	
 	else:
 		messages.error(request, 'Please login first')
 		return redirect('login')
 
-def checkout(request):
-	if request.user.is_authenticated:
+class CheckoutView(View):
+
+	def post(self, request):
 		user = request.user
 		customer = Customer.objects.get(user=user)
-		cart = Cart.objects.get(customer=customer)
-		cartItems = CartItem.objects.filter(cart=cart)
-
+		total_items = request.POST.get('total-cart-items', None)
 		subTotal = 0
+		# Creating cart in database
+		cart_obj = Cart()
+		cart_obj.save()
+		if total_items and int(total_items) > 0:
+			for x in range(int(total_items)):
+				product_id = request.POST.get('cart_item_number_'+str(x)+'_id')
+				product_quantity = request.POST.get('cart_item_number_'+str(x)+'_quantity')
+				product = Product.objects.get(pk=product_id)
+				cartItem_obj = CartItem(cart=cart_obj, product=product, quantity=product.inventory)
+				cartItem_obj.save()
 
-		for item in cartItems:
-			item_total = item.get_total_price()
-			subTotal = subTotal + item_total
+				subTotal = subTotal + (product.unit_price * product_quantity)
 
-		add = Address.objects.filter(user=user)[0]
+			messages.success(request, 'Checkout Completed. Please fill in the details on this page and confirm your order')
+			return redirect('placeOrder', cart_obj.pk)
 
-		context = {
-			"items"	:	cartItems, 
-			"subTotal"	:	subTotal , 
-			"add"	:	add,
-		}
-		return render(request, "checkout.html", context)
-	
-	else:
-		messages.error(request, 'Please login first')
-		return redirect('login')
 
-def placeOrder(request):
-	if request.user.is_authenticated:
-		user = request.user
-		customer = Customer.objects.get(user=user)
-		cart = Cart.objects.get(customer=customer)
+		else:
+			messages.error(request, 'No item in cart')
+			return redirect('home')
+
+class PlaceOrderView(View):
+
+	def get(self, request, session_ID):
+		cart = Cart.objects.get(session_ID=session_ID)
 		cartItems = CartItem.objects.filter(cart=cart)
 
-		order = Order()
-		order.customer = customer
-		order.save()
+		# order = Order()
+		# order.customer = customer
+		# order.save()
 
-		for item in cartItems:
-			orderItem_obj = OrderItem(order=order, product=item.product, quantity=item.quantity, unit_price=item.product.unit_price)
-			orderItem_obj.save()
+		# for item in cartItems:
+		# 	orderItem_obj = CartItem(order=order, product=item.product, quantity=item.quantity, unit_price=item.product.unit_price)
+		# 	orderItem_obj.save()
 		    
-		cart.delete()
+		# cart.delete()
 
 		context= {
-			"order_id":order.id,
+			"items"	:	cartItems,
+			'subTotal'	:	cart.subTotal,
 		}
-	return render(request, "order_placed.html", context)
+		return render(request, "checkout.html", context)
 
 def product_detail(request, id):
 	try:

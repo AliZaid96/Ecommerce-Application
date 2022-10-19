@@ -13,6 +13,6 @@ urlpatterns = [
 
     path("my-orders", views.myOrders, name="my_orders"),
     path("my-orders/<int:id>", views.orderDetail, name='order_detail'),
-    path("checkout/", views.checkout, name="checkout"),
-    path("place-order/", views.placeOrder, name="placeOrder"),
+    path("checkout/", views.CheckoutView.as_view(), name="checkout"),
+    path("place-order/<str:session_ID>", views.PlaceOrderView.as_view(), name="placeOrder"),
 ]

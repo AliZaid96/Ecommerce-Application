@@ -2,11 +2,19 @@ from django.db import models
 import datetime
 import os
 from user_accounts.models import Customer
+import uuid
 
 payment_status_choices = [
     ("P", "Pending"),
     ("C", "Complete"),
     ("F", "Failed")
+]
+
+gender_choices=[
+    ("M","Male"),
+    ("F","Female"),
+    ("O","Other")
+
 ]
 
 def filepath(request,filename):
@@ -56,7 +64,9 @@ class Product(models.Model):
         verbose_name_plural = 'Products'
 
 class Cart(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE,null=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
+    session_ID = models.CharField(max_length=50, default=uuid.uuid4)
+    subTotal = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -76,17 +86,23 @@ class CartItem(models.Model):
 class Order(models.Model):
     placed_at = models.DateTimeField(auto_now_add=True)
     payment_status = models.CharField(max_length=1, choices=payment_status_choices , default="P")
-    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
+    total_price = models.FloatField(default=0)
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    customer_name = models.CharField(max_length=500, blank=True, null=True)
+    customer_email = models.CharField(max_length=500, blank=True, null=True)
+    customer_gender = models.CharField(max_length=1, choices=gender_choices, blank=True, null=True)
+    customer_address = models.CharField(max_length=500, blank=True, null=True)
+    delivered_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return f'{self.customer.user.first_name} {self.customer.user.last_name}'
+        return str(self.pk)
 
     class Meta:
         verbose_name_plural = 'Orders'
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
     unit_price = models.DecimalField(max_digits=8 , decimal_places=2 )
@@ -99,3 +115,12 @@ class OrderItem(models.Model):
 
     class Meta:
         verbose_name_plural = 'Order Items'
+
+class Payment(models.Model):
+    stripe_id = models.CharField(max_length=50)
+    user = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.user.username

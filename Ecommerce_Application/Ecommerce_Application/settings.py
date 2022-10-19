@@ -140,3 +140,6 @@ EMAIL_HOST_USER = 'ali.alhussein.alt@gmail.com'
 EMAIL_HOST_PASSWORD = 'embimgqdnklasilk'
 DEFAULT_FROM_EMAIL = 'e-shop.info@eshop.com' 
 APPLICATION_EMAIL = 'admin@admin.com'
+
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
