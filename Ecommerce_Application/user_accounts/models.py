@@ -26,6 +26,9 @@ class Customer(models.Model):
     def __str__(self):
         return f'{self.pk}'
 
+    def get_latest_address(self):
+        return Address.objects.filter(user=self.user)[0]
+
     class Meta:
         verbose_name_plural = 'Customers'
 
@@ -33,7 +36,7 @@ class Customer(models.Model):
 class Address(models.Model):
     street=models.CharField(max_length=255)
     city=models.CharField(max_length=255)
-    user=models.OneToOneField(User, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.street

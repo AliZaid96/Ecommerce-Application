@@ -42,6 +42,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'login_required.middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -139,7 +140,37 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ali.alhussein.alt@gmail.com'
 EMAIL_HOST_PASSWORD = 'embimgqdnklasilk'
 DEFAULT_FROM_EMAIL = 'e-shop.info@eshop.com' 
-APPLICATION_EMAIL = 'admin@admin.com'
+APPLICATION_EMAIL = 'e-shop.info@eshop.com'
 
 STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = 'whsec_a53d98f400a853d4b745c17e7772d5efe714b8836eb01c35e7b064bf638909d2'
+
+LOGIN_REQUIRED_IGNORE_PATHS = [
+    r'/media/$',
+    r'/media/uploads/$',
+]
+
+LOGIN_REQUIRED_IGNORE_VIEW_NAMES = [   # urls ignored by the login_required. Can be accessed with out logging in
+    'home',
+    'login',
+    'register',
+    'logout',
+    'password_reset',
+    'password_reset_done',
+    'password_reset_confirm',
+    'password_reset_complete',
+    'category_products',
+    'product',
+    'MEDIA_URL',
+]
+
+LOGIN_REQUIRED_REDIRECT_FIELD_NAME = 'login'
+LOGIN_URL = 'login'                  # sets the 'login' page as default when user tries to illegally access profile or other hidden pages
+LOGOUT_REDIRECT_URL = 'login'        # sets the logout redirect to the 'login' page after logout
+
+
+# MAILCHIMP CREDENTIALS
+MAILCHIMP_API_KEY = 'db4e74cbae0bc972a5eb6ff3b0242274-us13'
+MAILCHIMP_DATA_CENTER = 'us13'
+MAILCHIMP_EMAIL_LIST_ID = '50dc17de70'

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load filtering_and_pagination %}
-{%block title%}{{title}}{% endblock%}
+{%block title%}Home{% endblock%}
 {%block content%}		
 		<!-- Product Style -->
 		<section class="product-area shop-sidebar shop section">
@@ -29,11 +29,11 @@
 									{% for product in recent_product %}
 										<div class="single-post first">
 											<div class="image">
-												<img src="{{product.img.url}}" alt="#">
+												<img src="{% if product.img %}{{product.img}}{% else %}{{product.image.url}}{% endif %}" alt="#">
 											</div>
 											<div class="content">
 												<h5><a href="{% url 'product' product.id %}">{{product.title}}</a></h5>
-												<p class="price">{{product.unit_price}}</p>
+												<p class="price">${{product.unit_price}}</p>
 												<ul class="reviews">
 													<li class="yellow"><i class="ti-star"></i></li>
 													<li class="yellow"><i class="ti-star"></i></li>
@@ -88,7 +88,7 @@
 									<div class="single-product">
 										<div class="product-img">
 											<a href="{% url 'product' product.id %}">
-												<img class="default-img" width="550" height="200px" src="{{product.img.url}}" alt="#" style="height: 200px">
+												<img class="default-img" width="550" height="200px" src="{% if product.img %}{{product.img}}{% else %}{{product.image.url}}{% endif %}" alt="#" style="height: 200px">
 											</a>
 											<div class="button-head">
 												<div class="product-action">
@@ -103,7 +103,7 @@
 										<div class="product-content">
 											<h3><a href="{% url 'product' product.id %}">{{product.title}}</a></h3>
 											<div class="product-price">
-												<span>{{currency}}{{product.unit_price}}</span>
+												<span>${{product.unit_price}}</span>
 											</div>
 										</div>
 									</div>
@@ -136,30 +136,5 @@
 	            {% endif %}
 	        </div>
 		</section>
-		<!--/ End Product Style 1  -->	
-
-		<!-- Start Shop Newsletter  -->
-		<section class="shop-newsletter section">
-			<div class="container">
-				<div class="inner-top">
-					<div class="row">
-						<div class="col-lg-8 offset-lg-2 col-12">
-							<!-- Start Newsletter Inner -->
-							<div class="inner">
-								<h4>Newsletter</h4>
-								<p> Subscribe to our newsletter and get <span>10%</span> off your first purchase</p>
-								<form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
-									<input name="EMAIL" placeholder="Your email address" required="" type="email">
-									<button class="btn">Subscribe</button>
-								</form>
-							</div>
-							<!-- End Newsletter Inner -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Shop Newsletter -->
-		
-		
+		<!--/ End Product Style 1  -->
 {%endblock%}

@@ -48,14 +48,17 @@ class Promotion(models.Model):
 # Model to store products information
 class Product(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     unit_price = models.DecimalField(max_digits=8, decimal_places=2 )
-    inventory = models.IntegerField()
+    stripe_price_id = models.CharField(max_length=150)
+    inventory = models.IntegerField(default=0)
     added = models.DateTimeField(auto_now_add=True, auto_now=False)
     last_update = models.DateTimeField(auto_now=True)
-    category = models.ForeignKey(Categories, on_delete=models.PROTECT)
+    category = models.ForeignKey(Categories, on_delete=models.PROTECT, blank=True, null=True)
     promotion = models.ManyToManyField(Promotion, blank=True)
-    img = models.ImageField(upload_to=filepath, blank=True)
+    img = models.URLField(null=True, blank=True)
+    image = models.ImageField(upload_to='products/', blank=True, null=True)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
@@ -66,7 +69,7 @@ class Product(models.Model):
 class Cart(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
     session_ID = models.CharField(max_length=50, default=uuid.uuid4)
-    subTotal = models.PositiveIntegerField()
+    subTotal = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -88,14 +91,16 @@ class Order(models.Model):
     payment_status = models.CharField(max_length=1, choices=payment_status_choices , default="P")
     total_price = models.FloatField(default=0)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
-    customer_name = models.CharField(max_length=500, blank=True, null=True)
-    customer_email = models.CharField(max_length=500, blank=True, null=True)
-    customer_gender = models.CharField(max_length=1, choices=gender_choices, blank=True, null=True)
-    customer_address = models.CharField(max_length=500, blank=True, null=True)
     delivered_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return str(self.pk)
+
+    def get_number_of_items(self):
+        return OrderItem.objects.filter(order=self).count()
+
+    def get_items(self):
+        return OrderItem.objects.filter(order=self)
 
     class Meta:
         verbose_name_plural = 'Orders'
@@ -124,3 +129,18 @@ class Payment(models.Model):
 
     def __str__(self):
         return self.user.user.username
+
+# Model to store products information
+class ContactUs(models.Model):
+    name = models.CharField(max_length=255)
+    subject = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
+    message = models.TextField()
+    added = models.DateTimeField(auto_now_add=True, auto_now=False)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'Contact Us'

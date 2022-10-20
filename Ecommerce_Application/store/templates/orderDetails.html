@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static%}
+{% block title %}Order Details{% endblock %}
 {%block content%}	
 				
 		<!-- Start Checkout -->
@@ -29,8 +30,8 @@
 											<td class="image" width="60" data-title="No"><img src="{{ x.product.img.url }}" alt=""></td>
 											<td data-title="No"> <strong>{{x.product.title}}</strong></td>
 											<td data-title="No"><strong> {{x.quantity}}</strong></td>
-											<td data-title="No"> <strong> <span>{{currency}} </span> {{x.product.unit_price}}</strong></td>
-											<td data-title="No"> <strong> <span>{{currency}} </span> {{x.get_total_price}}</strong></td>
+											<td data-title="No"> <strong> <span>$ </span> {{x.product.unit_price}}</strong></td>
+											<td data-title="No"> <strong> <span>$ </span> {{x.get_total_price}}</strong></td>
 											
 										  </tr>
 										 
@@ -63,9 +64,9 @@
 								<h2>CART  TOTALS</h2>
 								<div class="content">
 									<ul>
-										<li>Sub Total<span>{{currency}} {{subTotal}}</span></li>
+										<li>Sub Total<span>$ {{subTotal}}</span></li>
 										<li>Shipping<span>0</span></li>
-										<li class="last">Total<span>{{currency}} {{subTotal}}</span></li>
+										<li class="last">Total<span>$ {{subTotal}}</span></li>
 									</ul>
 								</div>
 							</div>
@@ -124,29 +125,5 @@
 			</div>
 		</section>
 		<!-- End Shop Services -->
-		
-		<!-- Start Shop Newsletter  -->
-		<section class="shop-newsletter section">
-			<div class="container">
-				<div class="inner-top">
-					<div class="row">
-						<div class="col-lg-8 offset-lg-2 col-12">
-							<!-- Start Newsletter Inner -->
-							<div class="inner">
-								<h4>Newsletter</h4>
-								<p> Subscribe to our newsletter and get <span>10%</span> off your first purchase</p>
-								<form action="mail/mail.php" method="get" target="_blank" class="newsletter-inner">
-									<input name="EMAIL" placeholder="Your email address" required="" type="email">
-									<button class="btn">Subscribe</button>
-								</form>
-							</div>
-							<!-- End Newsletter Inner -->
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- End Shop Newsletter -->
-			
 	
 {% endblock %}
