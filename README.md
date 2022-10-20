@@ -4,25 +4,31 @@ E-Shop is an E-commerce web application that allows users to navigate through ea
 # Features
 
 ## Home
-![Home page](Ecommerce_Application/media_files/uploads/Home1.PNG)
+<a href="https://ibb.co/j5GRjYF"><img src="https://i.ibb.co/6ZbBqS5/Home.png" alt="Home" border="0"></a>
 
 ## Navigation
-![navigation](Ecommerce_Application/media_files/uploads/navigation.PNG)
+<a href="https://ibb.co/VTPfMpT"><img src="https://i.ibb.co/Hqk5Gpq/navigation.png" alt="navigation" border="0"></a>
 
 ## The cart
-![cart](Ecommerce_Application/media_files/uploads/cart.PNG)
-
-## Navigation
-![cart](Ecommerce_Application/media_files/uploads/navigation.PNG)
+<a href="https://ibb.co/k05NZJp"><img src="https://i.ibb.co/nf6xpBT/cart.png" alt="cart" border="0"></a>
 
 ## Account Register
-![cart](Ecommerce_Application/media_files/uploads/register.PNG)
+<a href="https://ibb.co/Th4LZ4k"><img src="https://i.ibb.co/Lpx5Mx8/register.png" alt="register" border="0"></a>
 
 ## Sorting
-![cart](Ecommerce_Application/media_files/uploads/sorting.PNG)
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/3zqzQ0Z/sorting.png" alt="sorting" border="0"></a>
 
 ## User profile
-![cart](Ecommerce_Application/media_files/uploads/user-profile.PNG)
+<a href="https://ibb.co/dByY7wd"><img src="https://i.ibb.co/y0JjVcw/user-profile.png" alt="user-profile" border="0"></a>
+
+## User adress book
+<a href="https://ibb.co/GxdMJTm"><img src="https://i.ibb.co/4mFSfdk/user-adress-book.png" alt="user-adress-book" border="0"></a>
 
 ## search bar 
-![cart](Ecommerce_Application/media_files/uploads/search-bar.PNG)
+<a href="https://ibb.co/vQ6YC1g"><img src="https://i.ibb.co/wwFsZy3/search-bar.png" alt="search-bar" border="0"></a>
+
+## Newsletter
+<a href="https://ibb.co/R0LfNHK"><img src="https://i.ibb.co/1qH1M2N/news-letter.png" alt="news-letter" border="0"></a>
+
+## Feedback
+<a href="https://ibb.co/QMcYfBB"><img src="https://i.ibb.co/vkBLH55/feedback.png" alt="feedback" border="0"></a>
