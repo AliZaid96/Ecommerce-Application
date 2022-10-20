@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Update Profile{% endblock %}
+{% block content %}
+<div class="container my-5">
+ <div class="row">
+ <h3>Welcome {{request.user.username}}</h3>
+  
+  <div class="col-sm-9 offset-sm-1">
+    <h3>Update Profile Information</h3>
+    <hr>
+    <form action="" method="post" class="shadow-sm p-5" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_first_name" class="panel-body-text">First Name:</label>
+            <input type="mobile" class="form-control" id="id_first_name" value="{{ customer.user.firstname }}" name="first_name">
+        </div>
+        <div class="form-group">
+            <label for="id_last_name" class="panel-body-text">Last Name:</label>
+            <input type="mobile" class="form-control" id="id_last_name" value="{{ customer.user.lastname }}" name="last_name">
+        </div>
+        <div class="form-group">
+            <label for="id_email" class="panel-body-text">Email:</label>
+            <input type="mobile" class="form-control" id="id_email" value="{{ customer.user.email }}" name="email">
+        </div>
+        <div class="form-group">
+            <label for="id_phone" class="panel-body-text">Phone:</label>
+            <input type="text" class="form-control" id="id_phone" value="{{ customer.phone }}" name="phone">
+        </div>
+        <div class="form-group">
+            <label for="id_birth_date" class="panel-body-text">Birth Date:</label>
+            <input type="date" class="form-control" id="id_birth_date" value="{{ customer.Birth_date|date:'Y-m-d' }}" name="birth_date">
+        </div>
+        <div class="choices-container">
+      		<label class="checkbox-container mr-3">
+					  <input type="radio" class="bolean-radio-checkbox" name="gender" value="M" {% if customer.gender == 'M' %}checked{% endif %} required>
+					  <span class="checkmark"></span> Male
+					</label>
+					<label class="checkbox-container mr-3">
+					  <input type="radio" class="bolean-radio-checkbox" name="gender" value="F" {% if customer.gender == 'F' %}checked{% endif %} required>
+					  <span class="checkmark"></span> Female
+					</label>
+					<label class="checkbox-container mr-3">
+					  <input type="radio" class="bolean-radio-checkbox" name="gender" value="O" {% if customer.gender == 'O' %}checked{% endif %} required>
+					  <span class="checkmark"></span> Other
+					</label>
+        </div>
+        <button class="btn btn primary mt-4">Update</button>
+    </form>
+  </div>
+ </div>
+</div>
+{% endblock content %}
