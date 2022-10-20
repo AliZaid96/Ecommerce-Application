@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import django_heroku
 from django.contrib.messages import constants as messages
 import environ
 
@@ -12,11 +13,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'django-insecure-b&=u6_4z&(zka_7clk()myq-zzqtcw2@v2lh&c7uo-2m+=u$*j'
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://e-shop-proj.herokuapp.com/', 'www.e-shop-proj.herokuapp.com/']
 
 
 # Application definition
@@ -73,8 +74,12 @@ WSGI_APPLICATION = 'Ecommerce_Application.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'Ecommerce_Application_DB.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', #Database Engine
+        'NAME': 'dfi34pluhv7pki', #Database Name
+        'USER': 'gpknyxnroztmgj', #User Name
+        'PASSWORD': '9408f262124b36a2da869d48082039346ffca3ca05404aed860442cedc6d5a24', #Password
+        'HOST': 'ec2-34-242-84-130.eu-west-1.compute.amazonaws.com', #Host Name (localhost)
+        'PORT': '5432', #Access Port (Leave Blank)
     }
 }
 
@@ -142,8 +147,8 @@ EMAIL_HOST_PASSWORD = 'embimgqdnklasilk'
 DEFAULT_FROM_EMAIL = 'e-shop.info@eshop.com' 
 APPLICATION_EMAIL = 'e-shop.info@eshop.com'
 
-STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_PUBLIC_KEY = 'pk_test_51LucX2CCcgV8lelJTaB3F6VB90LSb6UzCP2flEjOPDEhe7uWpwGYBWCIz9lwp7wRi55QOL1xdCIwhBJedHfsMy5m00Fa3HvgDW'
+STRIPE_SECRET_KEY = 'sk_test_51LucX2CCcgV8lelJmrJ5Wt5UZC4VsC7rPaWaWigSXuHIJCvTLLTb6XovsOBiVCd8lSCvAIQ4PVL4iZlZbXKI8p0W00j41PpmDH'
 STRIPE_WEBHOOK_SECRET = 'whsec_a53d98f400a853d4b745c17e7772d5efe714b8836eb01c35e7b064bf638909d2'
 
 LOGIN_REQUIRED_IGNORE_PATHS = [
