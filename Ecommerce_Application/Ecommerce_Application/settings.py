@@ -17,6 +17,8 @@ SECRET_KEY = 'django-insecure-b&=u6_4z&(zka_7clk()myq-zzqtcw2@v2lh&c7uo-2m+=u$*j
 
 DEBUG = False
 
+SITE_ID = 1
+
 ALLOWED_HOSTS = ['https://e-shop-proj.herokuapp.com/', 'www.e-shop-proj.herokuapp.com/']
 
 
@@ -29,6 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',    #add sites to installed apps
+    'django.contrib.sitemaps',   #add Django sitemaps to installed apps
 
     # My Apps
     'user_accounts',
