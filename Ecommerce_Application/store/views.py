@@ -1,12 +1,19 @@
+<<<<<<< HEAD
 from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect
 from django.http import Http404  
 from django.views import View
 from django.contrib import messages
+=======
+from django.shortcuts import render, HttpResponse
+from django.http import Http404  
+from django.views import View
+>>>>>>> main
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import (
 	Product,
 	Categories,
 	Promotion,
+<<<<<<< HEAD
 	Cart,
 	CartItem,
 	Order,
@@ -25,6 +32,9 @@ from datetime import datetime
 
 
 stripe.api_key = 'sk_test_51LucX2CCcgV8lelJmrJ5Wt5UZC4VsC7rPaWaWigSXuHIJCvTLLTb6XovsOBiVCd8lSCvAIQ4PVL4iZlZbXKI8p0W00j41PpmDH'
+=======
+)
+>>>>>>> main
 
 class Home(View):
 	template_name = 'home.html'
@@ -162,6 +172,7 @@ class Category(View):
 
 		return render(request , self.template_name, context)
 
+<<<<<<< HEAD
 def myOrders(request):
 	user=request.user
 	customer = Customer.objects.get(user=user)    
@@ -305,13 +316,19 @@ def CancelOrder(request, pk):
 	order_obj.delete()
 	return redirect('home')
 
+=======
+>>>>>>> main
 def product_detail(request, id):
 	try:
 		product = Product.objects.get(pk=id)
 
 		context = {
+<<<<<<< HEAD
 			"product"		:	product,
 			"categories"	:	Categories.objects.all(),
+=======
+			"product":product
+>>>>>>> main
 		}
 		return render(request,"product_detail.html",context)
 
@@ -324,6 +341,7 @@ def error_404(request, exception):
 	data = {
 		'page'	:	'Product',
 	}
+<<<<<<< HEAD
 	return render(request,'404.html', data)
 
 @csrf_exempt
@@ -460,3 +478,6 @@ def sentEmail(order_id, user_email):
 	email_msg.content_subtype = 'html'
 	email_msg.send(fail_silently=False)
 	print('Email sent')
+=======
+	return render(request,'404.html', data)
+>>>>>>> main

@@ -1,6 +1,7 @@
 from django.db import models
 import datetime
 import os
+<<<<<<< HEAD
 from user_accounts.models import Customer
 import uuid
 
@@ -16,6 +17,8 @@ gender_choices=[
     ("O","Other")
 
 ]
+=======
+>>>>>>> main
 
 def filepath(request,filename):
     old_name = filename
@@ -25,8 +28,13 @@ def filepath(request,filename):
 
 # Models to store categories for product
 class Categories(models.Model):
+<<<<<<< HEAD
     title = models.CharField(max_length=255)
     featured_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True ,blank=True, related_name='+')
+=======
+    title=models.CharField(max_length=255)
+    featured_product=models.ForeignKey('Product', on_delete=models.SET_NULL, null=True ,blank=True, related_name='+')
+>>>>>>> main
 
     def __str__(self):
         return self.title
@@ -36,8 +44,13 @@ class Categories(models.Model):
 
 # Model to store promotions for the product
 class Promotion(models.Model):
+<<<<<<< HEAD
     description = models.CharField(max_length=255)
     discount = models.FloatField()
+=======
+    description=models.CharField(max_length=255)
+    discount=models.FloatField()
+>>>>>>> main
 
     def __str__(self):
         return self.description
@@ -47,6 +60,7 @@ class Promotion(models.Model):
 
 # Model to store products information
 class Product(models.Model):
+<<<<<<< HEAD
     title = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     unit_price = models.DecimalField(max_digits=8, decimal_places=2 )
@@ -59,11 +73,23 @@ class Product(models.Model):
     img = models.URLField(null=True, blank=True)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     active = models.BooleanField(default=True)
+=======
+    title=models.CharField(max_length=255)
+    description=models.TextField()
+    unit_price=models.DecimalField(max_digits=8, decimal_places=2 )
+    inventory=models.IntegerField()
+    added = models.DateTimeField(auto_now_add=True, auto_now=False)
+    last_update=models.DateTimeField(auto_now=True)
+    category=models.ForeignKey(Categories, on_delete=models.PROTECT)
+    promotions=models.ManyToManyField(Promotion, blank=True)
+    img = models.ImageField(upload_to=filepath, blank=True)
+>>>>>>> main
 
     def __str__(self):
         return self.title
 
     class Meta:
+<<<<<<< HEAD
         verbose_name_plural = 'Products'
 
 class Cart(models.Model):
@@ -144,3 +170,6 @@ class ContactUs(models.Model):
 
     class Meta:
         verbose_name_plural = 'Contact Us'
+=======
+        verbose_name_plural = 'Products'
+>>>>>>> main

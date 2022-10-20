@@ -68,8 +68,12 @@ class UpdateProfile(View):
 			return redirect('home')
 
 		context = {
+<<<<<<< HEAD
 			'customer'	:	customer,
 			"categories"	:	Categories.objects.all(),
+=======
+			'customer'	:	customer
+>>>>>>> main
 		}
 		return render(request, self.template_name, context)
 

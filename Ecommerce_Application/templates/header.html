@@ -1,5 +1,6 @@
 	<!-- Header -->
     {%load static%}
+<<<<<<< HEAD
     {% with url_name=request.resolver_match.url_name %}
         <header class="header shop">
             <!-- Topbar -->
@@ -27,6 +28,31 @@
                                     </form>
                                 </div>
                                 <!--/ End Search Form -->
+=======
+    
+    <header class="header shop">
+        <!-- Topbar -->
+        
+        <!-- End Topbar -->
+        <div class="middle-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-12">
+                        <!-- Logo -->
+                        <div class="logo">
+                            <a href="{% url 'home' %}"><img src="{%static 'images/log11.png'%}" alt="logo"></a>
+                        </div>
+                        <!--/ End Logo -->
+                        <!-- Search Form -->
+                        <div class="search-top">
+                            <div class="top-search"><a href="#0"><i class="fas fa-search"></i></a></div>
+                            <!-- Search Form -->
+                            <div class="search-top">
+                                <form method="get" action="{% url 'home' %}" class="search-form">
+                                    <input type="text" placeholder="Search here..." name="search">
+                                    <button value="search" type="submit"><i class="fas fa-search"></i></button>
+                                </form>
+>>>>>>> main
                             </div>
                             <!--/ End Search Form -->
                             <div class="mobile-nav"></div>

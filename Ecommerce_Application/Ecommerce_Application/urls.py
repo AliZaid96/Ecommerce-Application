@@ -12,10 +12,13 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+<<<<<<< HEAD
 urlpatterns += [
     path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type='text/plain'))
 ]
 
+=======
+>>>>>>> main
 handler404 = "store.views.error_404"
 
 

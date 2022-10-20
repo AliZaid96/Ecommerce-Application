@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.Home.as_view(), name='home'),
     path('category/<int:id>', views.Category.as_view(), name='category_products'),
     path('product/<int:id>/', views.product_detail, name="product"),
+<<<<<<< HEAD
 
     path("my-orders", views.myOrders, name="my_orders"),
     path("order-details/<int:id>", views.orderDetail, name='order_detail'),
@@ -20,4 +21,6 @@ urlpatterns = [
     path('contact-us', views.ContactUSView.as_view(), name='contact-us'),
     # View to sync products with stripe store
     path('sync-with-stripe', views.SyncDataWithStripe, name='sync-with-stripe'),
+=======
+>>>>>>> main
 ]

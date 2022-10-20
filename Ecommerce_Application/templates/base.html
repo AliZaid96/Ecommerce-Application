@@ -13,7 +13,11 @@
 	<meta name='copyright' content=''>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<<<<<<< HEAD
     <title>E-Shop | {% block title %} {% endblock %}</title>
+=======
+    <title>Ecom | {% block title %} {% endblock %}</title>
+>>>>>>> main
     <link rel="icon" type="image/png" href="images/favicon.png">
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
@@ -40,6 +44,29 @@
     <link rel="stylesheet" href="{%static 'css/owl-carousel.css' %}">
 	<!-- Slicknav -->
     <link rel="stylesheet" href="{%static 'css/slicknav.min.css' %}">
+<<<<<<< HEAD
+=======
+	
+	<!-- Eshop StyleSheet -->
+	<link rel="stylesheet" href="{%static 'css/reset.css'%}">
+	<link rel="stylesheet" href="{%static 'css/style.css'%}">
+    <link rel="stylesheet" href="{%static 'css/responsive.css'%}">
+</head>
+<body class="js" onload="loadDoc()">
+	
+    <!-- Preloader -->
+	<!-- <div class="preloader">
+		<div class="preloader-inner">
+			<div class="preloader-icon">
+				<span></span>
+				<span></span>
+			</div>
+		</div>
+	</div> -->
+	<!-- End Preloader -->
+    {% include "header.html"%}
+    {% block content %}
+>>>>>>> main
 	
 	<!-- Eshop StyleSheet -->
 	<link rel="stylesheet" href="{%static 'css/reset.css'%}">
@@ -153,6 +180,11 @@
 	<script src="{%static 'js/popper.min.js'%}"></script>
 	<!-- Bootstrap JS -->
 	<script src="{%static 'js/bootstrap.min.js'%}"></script>
+<<<<<<< HEAD
+=======
+	<!-- Color JS -->
+	<script src="{%static 'js/colors.js'%}"></script>
+>>>>>>> main
 	<!-- Slicknav JS -->
 	<script src="{%static 'js/slicknav.min.js'%}"></script>
 	<!-- Owl Carousel JS -->
@@ -178,6 +210,7 @@
 	<script src="{%static 'js/active.js'%}"></script>
 	<script>
 		
+<<<<<<< HEAD
 		// ************************************************
 		// Shopping Cart API
 		// ************************************************
@@ -367,5 +400,19 @@
 		displayCart();
 
 	</script>
+=======
+		function loadDoc() {
+		  if(localStorage.getItem("cart")==null){
+			const xhttp = new XMLHttpRequest();
+		  	xhttp.onload = function() {
+				localStorage.setItem("cart",this.responseText)
+				console.log("cart saved")
+		  	}
+		  	xhttp.open("GET", "");
+		  	xhttp.send();
+		  }
+		}
+		</script>
+>>>>>>> main
 </body>
 </html>
