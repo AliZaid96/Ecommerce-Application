@@ -6,6 +6,7 @@ from .models import (
 	Customer,
 	Address
 )
+from store.models import Categories
 from .forms import (
 	CustomerRegistrationForm,
 	AddAddressForm,
@@ -50,7 +51,8 @@ def profile(request):
 		customer.save()
 
 	context = {
-		'customer'	:	customer
+		'customer'	:	customer,
+		"categories"	:	Categories.objects.all(),
 	}
 	return render(request, "profile.html", context)
 
@@ -66,7 +68,12 @@ class UpdateProfile(View):
 			return redirect('home')
 
 		context = {
+<<<<<<< HEAD
+			'customer'	:	customer,
+			"categories"	:	Categories.objects.all(),
+=======
 			'customer'	:	customer
+>>>>>>> main
 		}
 		return render(request, self.template_name, context)
 
@@ -105,6 +112,7 @@ class addressBook(View):
 		context = {
 			'form'	:	form,
 			'add'	:	add,
+			"categories"	:	Categories.objects.all(),
 		}
 		return render(request, self.template_name, context)
 
@@ -125,6 +133,14 @@ class addressBook(View):
 		context = {
 			'form'	:	form,
 			'add'	:	add,
+			"categories"	:	Categories.objects.all(),
 		}
 		return render(request, self.template_name, context)
 
+class DeleteAddress(View):
+
+	def get(self, request, pk):
+		address = Address.objects.get(pk=pk)
+		address.delete()
+		messages.success(request, 'Address removed')
+		return redirect('address_book')

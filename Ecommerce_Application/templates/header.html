@@ -1,5 +1,34 @@
 	<!-- Header -->
     {%load static%}
+<<<<<<< HEAD
+    {% with url_name=request.resolver_match.url_name %}
+        <header class="header shop">
+            <!-- Topbar -->
+            
+            <!-- End Topbar -->
+            <div class="middle-inner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-2 col-12">
+                            <!-- Logo -->
+                            <div class="logo">
+                                <a href="{% url 'home' %}" style="font-weight: bolder; font-size: 2.8em;">
+                                    E-<span style="color: #F7941D;">Shop</span>
+                                </a>
+                            </div>
+                            <!--/ End Logo -->
+                            <!-- Search Form -->
+                            <div class="search-top">
+                                <div class="top-search"><a href="#0"><i class="fas fa-search"></i></a></div>
+                                <!-- Search Form -->
+                                <div class="search-top">
+                                    <form method="get" action="{% url 'home' %}" class="search-form">
+                                        <input type="text" placeholder="Search here..." name="search">
+                                        <button value="search" type="submit"><i class="fas fa-search"></i></button>
+                                    </form>
+                                </div>
+                                <!--/ End Search Form -->
+=======
     
     <header class="header shop">
         <!-- Topbar -->
@@ -23,38 +52,81 @@
                                     <input type="text" placeholder="Search here..." name="search">
                                     <button value="search" type="submit"><i class="fas fa-search"></i></button>
                                 </form>
+>>>>>>> main
                             </div>
                             <!--/ End Search Form -->
+                            <div class="mobile-nav"></div>
                         </div>
-                        <!--/ End Search Form -->
-                        <div class="mobile-nav"></div>
-                    </div>
-                    <div class="col-lg-8 col-md-7 col-12">
-                        <div class="search-bar-top">
-                            <div class="search-bar">
-                                <form method="GET" action="">
-                                    <input name="search" placeholder="Search Products Here....." type="search">
-                                    <button  type="submit"  class="btnn"><i class="fas fa-search"></i></button>
-                                </form>
+                        <div class="col-lg-6 col-md-5 col-12">
+                            <div class="search-bar-top">
+                                <div class="search-bar">
+                                    <form method="GET" action="">
+                                        <input name="search" placeholder="Search Products Here....." type="search">
+                                        <button  type="submit"  class="btnn"><i class="fas fa-search"></i></button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-12">
-                        <div class="right-bar">
-                            <!-- Search Form -->
-                            <div class="sinlge-bar">
-                                <a href="#" class="single-icon"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                        <div class="col-lg-4 col-md-5 col-12">
+                            <div class="right-bar">
+                                <!-- Search Form -->
+                                <div class="sinlge-bar">
+                                    <i class="my-cart-icon fas fa-shopping-cart" style="font-size: 1.3em; cursor: pointer;" data-toggle="modal" data-target="#cart"><span class="badge badge-notify my-cart-badge total-count"></span></i>
+                                </div>
+                                <div class="sinlge-bar">
+                                    <a href="#" class="single-icon"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                                </div>
+                                <div class="sinlge-bar">
+                                    <a href="{% url 'profile' %}" class="single-icon" ><i class="fa fa-user-circle" aria-hidden="true"></i>{{request.user.get_full_name}}</a>
+                                </div>
+                                
                             </div>
-                            <div class="sinlge-bar">
-                                <a href="{% url 'profile' %}" class="single-icon" ><i class="fa fa-user-circle" aria-hidden="true"></i></a>
-                            </div>
-                            
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!--/ End Header Inner -->
-    </header>
+            <!-- Header Inner -->
+            <div class="header-inner">
+                <div class="container">
+                    <div class="cat-nav-head">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="menu-area">
+                                    <!-- Main Menu -->
+                                    <nav class="navbar navbar-expand-lg">
+                                        <div class="navbar-collapse">   
+                                            <div class="nav-inner"> 
+                                                <ul class="nav main-menu menu navbar-nav">
+                                                    <li class="{% if url_name == 'home' %}active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
+                                                    
+                                                    <li><a class="{% if url_name == 'category_products' %}active{% endif %}" href="#">Categories<i class="ti-angle-down"></i></a>
+                                                        <ul class="dropdown">
+                                                            {% for x in categories %}
+                                                                <li><a href="{% url 'category_products' x.id %}">{{x.title}}</a></li>
+                                                            {%endfor%}
+                                                        </ul>
+                                                    </li>
+                                                                                    
+                                                   
+                                                    <li><a href="{% url 'contact-us' %}">Contact Us</a></li>
+                                                    {% if request.user.is_authenticated %}
+                                                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                                                    {% else %}
+                                                        <li><a href="{% url 'login' %}">Login</a></li>                                                
+                                                        <li><a href="{% url 'register' %}">Register</a></li>
+                                                    {%endif%}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                    <!--/ End Main Menu --> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ End Header Inner -->
+        </header>
+    {% endwith %}
     <!--/ End Header -->

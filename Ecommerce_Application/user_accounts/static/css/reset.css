@@ -1050,22 +1050,22 @@ object {
 	display:inline-block;
 }
 .modal-dialog {
-  margin: 12% auto 8%;
-  max-width: 1358px;
-  width: 1358px;
+  margin: 5% auto;
+  max-width: 1200px;
+  width: 1200px;
 }
 
 @media only screen and (min-width: 1366px) and (max-width: 1600px) {
   .modal-dialog {
-    width: 1145px;
-    max-width: 1145px;
+    width: 1050px;
+    max-width: 1050px;
   }
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1365px) {
   .modal-dialog {
-    width: 1145px;
-    max-width: 1145px;
+    width: 1050px;
+    max-width: 1050px;
   }
 }
 

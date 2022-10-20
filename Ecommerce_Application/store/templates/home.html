@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load filtering_and_pagination %}
+<<<<<<< HEAD
+{%block title%}Home{% endblock%}
+=======
 {%block title%}{{title}}{% endblock%}
+>>>>>>> main
 {%block content%}		
 		<!-- Product Style -->
 		<section class="product-area shop-sidebar shop section">
@@ -29,11 +33,19 @@
 									{% for product in recent_product %}
 										<div class="single-post first">
 											<div class="image">
+<<<<<<< HEAD
+												<img src="{% if product.img %}{{product.img}}{% else %}{{product.image.url}}{% endif %}" alt="#">
+											</div>
+											<div class="content">
+												<h5><a href="{% url 'product' product.id %}">{{product.title}}</a></h5>
+												<p class="price">${{product.unit_price}}</p>
+=======
 												<img src="{{product.img.url}}" alt="#">
 											</div>
 											<div class="content">
 												<h5><a href="{% url 'product' product.id %}">{{product.title}}</a></h5>
 												<p class="price">{{product.unit_price}}</p>
+>>>>>>> main
 												<ul class="reviews">
 													<li class="yellow"><i class="ti-star"></i></li>
 													<li class="yellow"><i class="ti-star"></i></li>
@@ -76,10 +88,14 @@
 											</div>
 										</div>
 									</div>
+<<<<<<< HEAD
+
+=======
 									<!-- <ul class="view-mode">
 										<li class="active"><a href="shop-grid.html"><i class="fa fa-th-large"></i></a></li>
 										<li><a href="shop-list.html"><i class="fa fa-th-list"></i></a></li>
 									</ul> -->
+>>>>>>> main
 								</div>
 								<!--/ End Shop Top -->
 							</div>
@@ -91,6 +107,17 @@
 									<div class="single-product">
 										<div class="product-img">
 											<a href="{% url 'product' product.id %}">
+<<<<<<< HEAD
+												<img class="default-img" width="550" height="200px" src="{% if product.img %}{{product.img}}{% else %}{{product.image.url}}{% endif %}" alt="#" style="height: 200px">
+											</a>
+											<div class="button-head">
+												<div class="product-action">
+													<a href="{% url 'product' product.id %}"><i class=" ti-eye"></i><span>Product Details</span></a>
+													<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+												</div>
+												<div class="product-action-2">
+													<a title="Add to cart" data-id={{product.pk}} data-name="{{product.title}}" data-summary="{{product.description}}" data-price="{{product.unit_price}}" data-quantity="1" data-image="images/img_2.png" class="add-to-cart">Add to cart</a>
+=======
 												<img class="default-img" width="550" height="200px" src="{{product.img.url}}" alt="#" style="height: 200px">
 												<!-- <img class="hover-img" src="https://via.placeholder.com/550x750" alt="#"> -->
 											</a>
@@ -102,13 +129,18 @@
 												</div>
 												<div class="product-action-2">
 													<a title="Add to cart" href="{% url 'product' product.id %}">Add to cart</a>
+>>>>>>> main
 												</div>
 											</div>
 										</div>
 										<div class="product-content">
 											<h3><a href="{% url 'product' product.id %}">{{product.title}}</a></h3>
 											<div class="product-price">
+<<<<<<< HEAD
+												<span>${{product.unit_price}}</span>
+=======
 												<span>{{currency}}{{product.unit_price}}</span>
+>>>>>>> main
 											</div>
 										</div>
 									</div>
@@ -141,6 +173,9 @@
 	            {% endif %}
 	        </div>
 		</section>
+<<<<<<< HEAD
+		<!--/ End Product Style 1  -->
+=======
 		<!--/ End Product Style 1  -->	
 
 		<!-- Start Shop Newsletter  -->
@@ -278,4 +313,5 @@
 			</div>
 		</div>
 		<!-- Modal end -->
+>>>>>>> main
 {%endblock%}

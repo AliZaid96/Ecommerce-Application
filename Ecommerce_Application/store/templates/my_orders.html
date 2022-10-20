@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}My Orders{% endblock %}
+
+{% block content %}		
+			<!-- Product Style -->
+			
+		<section class="product-area shop-sidebar shop section">
+			<div class="container">
+			
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-12">
+						<div class="shop-sidebar">
+								<!-- Single Widget -->
+								<div class="single-widget category">
+									<h3 class="title">Manage Your Account</h3>
+									<ul class="categor-list">
+										
+										<li ><a  href="{% url 'profile'%}">My Profile</a></li>
+										<li><a href="{% url 'address_book'%}">Address Book</a></li>
+                                        	
+									</ul>
+                                    <br>
+                                    <h3 class="title">My Orders</h3>
+									<ul class="categor-list">
+										<li><a href="{% url 'my_orders' %}">All Orders</a></li>
+									</ul>
+								</div>
+								<!--/ End Single Widget -->
+					
+						</div>
+					</div>
+					<div class="col-lg-9 col-md-8 col-12">
+						<div class="row">
+                            <div class="col-12">
+                                <h3>My Orders</h3>
+                            </div>
+                        
+                            
+							  <div class="card col-12 mt-2">
+                                <div class="card-body">
+									
+									<table class="table">
+										<thead>
+										  <tr>
+											<th scope="col">Order ID</th>
+											<th scope="col">Status</th>
+											<th scope="col">Date Time</th>
+											<th scope="col">Address</th>
+											
+										  </tr>
+										</thead>
+										<tbody>
+										{% for order in orders %}
+											<tr>
+												<th scope="row">
+													<a class="badge badge-light"  href="{% url 'order_detail' order.id %}">{{ order.id }}</a>
+												</th>
+
+												<td>
+													{% if order.payment_status == 'P' %}
+													<span class="badge badge-pill badge-warning">{{order.payment_status}}</span></td>
+													{% elif order.payment_status == 'C' %}
+													<span class="badge badge-pill badge-success">{{order.payment_status}}</span></td>
+													{% else %}
+													<span class="badge badge-pill badge-danger">{{order.payment_status}}</span></td>
+													{% endif%}
+												<td>{{order.placed_at}}</td>
+												<td>{{add.street}} , {{add.city}}</td>
+												
+											</tr>
+										{% endfor%}
+										  
+										</tbody>
+									  </table>
+                                      <!-- <div class="row"><button class="btn btn primary"></button></div> -->
+                                      
+                                </div>
+                              </div>
+
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+		<!--/ End Product Style 1  -->			
+
+{% endblock %}

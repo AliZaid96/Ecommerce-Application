@@ -35,6 +35,7 @@ urlpatterns = [
     path("profile/", views.profile, name="profile"),
     path("update-profile/", views.UpdateProfile.as_view(), name="update-profile"),
     path("address-book", views.addressBook.as_view(), name="address_book"),
+    path("delete-address/<int:pk>", views.DeleteAddress.as_view(), name="delete-address"),
     path('password-change/', auth_views.PasswordChangeView.as_view(
         template_name='passwordchange.html', 
         form_class=MyPasswordChangeForm, 
